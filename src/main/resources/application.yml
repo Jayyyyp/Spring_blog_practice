@@ -1,10 +1,10 @@
 spring:
+  profiles:
+    active: db
   mvc:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-  profiles:
-    active: db
   datasource:
     url: ${url}
     username: ${adminname}
