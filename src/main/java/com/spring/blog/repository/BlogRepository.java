@@ -11,7 +11,7 @@ public interface BlogRepository {
     // 사전 정의 메서드
     void createBlogTable();
 
-    // 더미데이터 입력
+    // 더미데이터 입력d
     void insertTestData();
 
     // 테이블 삭제
