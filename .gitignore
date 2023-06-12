@@ -38,3 +38,5 @@ out/
 
 ### profiles ###
 application-db.yml
+
+src/main/resources/application-db.yml
