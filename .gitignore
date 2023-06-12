@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### profiles ###
-application-db.profiles
+application-db.yml

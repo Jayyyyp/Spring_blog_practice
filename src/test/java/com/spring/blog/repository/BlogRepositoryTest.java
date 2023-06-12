@@ -28,12 +28,14 @@ public class BlogRepositoryTest {
     @Test
     public void findAllTest(){
         // given
-
+        int blogId = 1;
         // when
         List<Blog> blogList = blogRepository.findAll();
 
         //then
         assertEquals(3, blogList.size());
+        // 2번째 객체의 ID번호는 2번일 것이다.
+        assertEquals(2, blogList.get(blogId).getBlogId());
     }
 
     @AfterEach

@@ -19,4 +19,7 @@ public interface BlogRepository {
 
     // 전체 데이터 조회 기능 findAll()
     List<Blog> findAll();
+
+    // 단일 행 조회 기능 findById()
+    Blog findById(long blogId);
 }

@@ -32,7 +32,28 @@
 
     <select id="findAll" resultType="com.spring.blog.entity.Blog">
         SELECT
-                *
+            blog_id as blogId,
+            writer,
+            blog_title as blogTitle,
+            blog_content as blogContent,
+            published_at as publishedAt,
+            updated_at as updatedAt,
+            blog_count as blogCount
         FROM blog
+    </select>
+
+    <select id="findById" resultType="com.spring.blog.entity.Blog">
+        SELECT
+            blog_id as blogId,
+            writer,
+            blog_title as blogTitle,
+            blog_content as blogContent,
+            published_at as publishedAt,
+            updated_at as updatedAt,
+            blog_count as blogCount
+        FROM
+            blog
+        WHERE
+            blog_id = #{blogId}
     </select>
 </mapper>
