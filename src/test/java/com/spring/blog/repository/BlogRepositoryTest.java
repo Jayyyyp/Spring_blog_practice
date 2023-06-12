@@ -38,6 +38,23 @@ public class BlogRepositoryTest {
         assertEquals(2, blogList.get(blogId).getBlogId());
     }
 
+    @Test
+    public void findByIdTest(){
+        // given : 조회할 ID
+        long blogId = 2;
+        String writer = "2번유저";
+        String blogTitle = "2번제목";
+
+        // when : 레포지토리에서 단일행 Blog를 얻어와 저장
+        Blog blog = blogRepository.findById(blogId);
+
+        // then : 해당 객체의 writer 멤버변수는 "2번 유저"이고, blogTitle은 "2번제목",
+        //          blogId = 2
+        assertEquals(writer, blog.getWriter());
+        assertEquals(blogTitle, blog.getBlogTitle());
+        assertEquals(blogId, blog.getBlogId());
+    }
+
     @AfterEach
     public void dropBlogTable(){
         blogRepository.dropBlogTable();

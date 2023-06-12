@@ -8,7 +8,7 @@
     <!--테스트 쿼리문들-->
 
     <update id="createBlogTable">
-        CREATE TABLE IF NOT EXISTS blog(
+        CREATE TABLE IF NOT EXISTS blog2(
             blog_id int auto_increment primary key,
             writer varchar(16) not null,
             blog_title varchar(200) not null,
@@ -20,14 +20,14 @@
     </update>
 
     <insert id="insertTestData">
-        INSERT INTO blog VALUES
+        INSERT INTO blog2 VALUES
                 (null, '1번유저', '1번제목', '1번본문', now(), now(), null),
                 (null, '2번유저', '2번제목', '2번본문', now(), now(), null),
                 (null, '3번유저', '3번제목', '3번본문', now(), now(), null)
     </insert>
 
     <update id="dropBlogTable">
-        DROP TABLE blog
+        DROP TABLE blog2
     </update>
 
     <select id="findAll" resultType="com.spring.blog.entity.Blog">
@@ -39,7 +39,7 @@
             published_at as publishedAt,
             updated_at as updatedAt,
             blog_count as blogCount
-        FROM blog
+        FROM blog2
     </select>
 
     <select id="findById" resultType="com.spring.blog.entity.Blog">
@@ -52,7 +52,7 @@
             updated_at as updatedAt,
             blog_count as blogCount
         FROM
-            blog
+            blog2
         WHERE
             blog_id = #{blogId}
     </select>
