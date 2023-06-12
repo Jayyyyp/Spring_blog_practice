@@ -1,15 +1,15 @@
 spring:
   profiles:
     active: db
+  datasource:
+    driver-class-name: ${driver-class-name}
+    url: ${url}
+    username: ${adminname}
+    password: ${password}
   mvc:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-  datasource:
-    url: ${url}
-    username: ${adminname}
-    password: ${password}
-    driver-class-name: ${driver-class-name}
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/**/**.xml
