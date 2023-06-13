@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // DROP 테이블 시 필요
@@ -55,6 +56,56 @@ public class BlogRepositoryTest {
         assertEquals(blogId, blog.getBlogId());
     }
 
+    @Test
+    public void saveTest(){
+        String writer = "4번유저";
+        String blogTitle = "4번제목";
+        String blogContent = "4번본문";
+
+        Blog blog = Blog.builder()
+                .writer(writer)
+                .blogTitle(blogTitle)
+                .blogContent(blogContent)
+                .build();
+        int blogId = 3;
+
+        blogRepository.save(blog);
+        List<Blog>blogList = blogRepository.findAll();
+
+        assertEquals(writer, blogList.get(blogId).getWriter());
+        assertEquals(blogTitle, blogList.get(blogId).getBlogTitle());
+        assertEquals(blogContent, blogList.get(blogId).getBlogContent());
+    }
+
+    @Test
+    public void deleteByIdTest(){
+        long blogId = 2;
+
+       blogRepository.deleteById(blogId);
+
+       assertEquals(2, blogRepository.findAll().size());
+       assertNull(blogRepository.findById(blogId));
+    }
+
+    @Test
+    public void updateTest(){
+        String blogContent = "수정한본문";
+        String blogTitle = "수정한제목";
+        long blogId = 2;
+
+        blogRepository.findById(blogId);
+        Blog blog = Blog.builder()
+                .blogId(blogId)
+                .blogContent(blogContent)
+                .blogTitle(blogTitle)
+                .build();
+
+        blogRepository.update(blog);
+
+        assertEquals(blogContent, blog.getBlogContent());
+        assertEquals(blogTitle, blog.getBlogTitle());
+
+    }
     @AfterEach
     public void dropBlogTable(){
         blogRepository.dropBlogTable();

@@ -56,4 +56,27 @@
         WHERE
             blog_id = #{blogId}
     </select>
+
+    <insert id="save" parameterType="com.spring.blog.entity.Blog">
+        INSERT INTO blog2
+            (writer, blog_title, blog_content)
+        VALUES
+            (#{writer}, #{blogTitle}, #{blogContent})
+    </insert>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM blog2
+            WHERE
+                blog_id = #{blogId}
+    </delete>
+
+    <update id="update" parameterType="com.spring.blog.entity.Blog">
+        UPDATE blog2
+            SET
+                blog_title = #{blogTitle},
+                blog_content = #{blogContent},
+                updated_at = now()
+            WHERE
+                blog_id = #{blogId}
+    </update>
 </mapper>
