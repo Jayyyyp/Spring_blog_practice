@@ -30,5 +30,5 @@ public interface BlogRepository {
     void deleteById(long blogId);
 
     // 데이터 수정 기능
-    public void update(Blog blog);
+    void update(Blog blog);
 }
