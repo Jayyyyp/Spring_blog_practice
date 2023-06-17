@@ -36,8 +36,7 @@ public class BlogController {
 
     @GetMapping("/detail/{blogId}")
     public String detail(Model model, @PathVariable long blogId){
-//        Blog blog = blogService.findById(blogId);
-//        model.addAttribute("blog", blog);
+
         model.addAttribute("blog", blogService.findById(blogId));
        return "blog/detail";
     }
