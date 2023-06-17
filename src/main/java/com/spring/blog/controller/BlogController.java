@@ -82,8 +82,8 @@ public class BlogController {
 
     @PostMapping("/update")
     public String update(Blog blog){
-       
-       return"";
+       blogService.update(blog);
+       return"redirect:/blog/detail/" + blog.getBlogId();
     }
 
 }

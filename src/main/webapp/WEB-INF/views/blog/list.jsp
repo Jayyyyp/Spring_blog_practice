@@ -35,6 +35,9 @@
             </c:forEach>
         </tbody>
     </table>
+        <div class="row">
+            <a href="/blog/insert" class="btn btn-primary">글쓰기</a>
+        </div>
     </div>
 </body>
 </html>
