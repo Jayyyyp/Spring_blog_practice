@@ -35,8 +35,8 @@ public class ReplyRepositoryTest {
     @DisplayName("댓글번호 3번 자료의 댓글은 3번이고, 글쓴이는 바둑이")
     public void findByReplyIdTest(){
         long replyId = 3;
-        String replyWriter = "바둑이";
-        String replyContent = "3빠댓글";
+        String replyWriter = "에취";
+        String replyContent = "에쵸!!";
 
         ReplyFindByIdDTO replyFindByIdDTO = replyRepository.findByReplyId(replyId);
 
