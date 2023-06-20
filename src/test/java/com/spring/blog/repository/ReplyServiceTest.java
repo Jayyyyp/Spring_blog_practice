@@ -2,6 +2,7 @@ package com.spring.blog.repository;
 
 import com.spring.blog.dto.reply.ReplyFindByIdDTO;
 import com.spring.blog.dto.reply.ReplyInsertDTO;
+import com.spring.blog.dto.reply.ReplyUpdateDTO;
 import com.spring.blog.service.ReplyService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -74,9 +75,36 @@ public class ReplyServiceTest {
 
         replyService.save(replyInsertDTO);
 
-        assertEquals(blogId, replyInsertDTO.getBlogId());
-        assertEquals(replyWriter, replyInsertDTO.getReplyWriter());
-        assertEquals(replyContent, replyInsertDTO.getReplyContent());
+
+        List<ReplyFindByIdDTO> resultList = replyService.findAllByBlogId(blogId);
+        ReplyFindByIdDTO result = resultList.get(resultList.size() - 1);
+        // 마지막 인덱스에 추가되었을 것이라 resultList.size()에 -1을 함
+
+        assertEquals(replyWriter, result.getReplyWriter());
+        assertEquals(replyContent, result.getReplyContent());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("update Test")
+    public void updateTest(){
+        long replyId = 2;
+        String replyWriter = "너굴맨";
+        String replyContent = "너굴너굴";
+
+        ReplyUpdateDTO replyUpdateDTO = ReplyUpdateDTO.builder()
+                .replyId(replyId)
+                .replyWriter(replyWriter)
+                .replyContent(replyContent)
+                .build();
+
+        replyService.update(replyUpdateDTO);
+
+        ReplyFindByIdDTO result = replyService.findByReplyId(replyId);
+        assertEquals(replyWriter, result.getReplyWriter());
+        assertEquals(replyContent, result.getReplyContent());
+        assertTrue(result.getUpdatedAt().isAfter(result.getPublishedAt()));
+        // 업데이트한 시간이 출판한 시간보다 이후일 것이다.
     }
 
 }

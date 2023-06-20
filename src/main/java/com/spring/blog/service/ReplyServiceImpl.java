@@ -2,6 +2,7 @@ package com.spring.blog.service;
 
 import com.spring.blog.dto.reply.ReplyFindByIdDTO;
 import com.spring.blog.dto.reply.ReplyInsertDTO;
+import com.spring.blog.dto.reply.ReplyUpdateDTO;
 import com.spring.blog.repository.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,10 @@ public class ReplyServiceImpl implements ReplyService{
     @Override
     public void save(ReplyInsertDTO replyInsertDTO) {
         replyRepository.save(replyInsertDTO);
+    }
+
+    @Override
+    public void update(ReplyUpdateDTO replyUpdateDTO) {
+        replyRepository.update(replyUpdateDTO);
     }
 }

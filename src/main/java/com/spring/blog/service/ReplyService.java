@@ -17,4 +17,6 @@ public interface ReplyService {
 
     void save(ReplyInsertDTO replyInsertDTO);
 
+    void update(ReplyUpdateDTO replyUpdateDTO);
+
 }
