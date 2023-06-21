@@ -130,5 +130,4 @@ public class ReplyServiceTest {
         assertTrue(result.getUpdatedAt().isAfter(result.getPublishedAt()));
         // 업데이트한 시간이 출판한 시간보다 이후일 것이다.
     }
-
 }
