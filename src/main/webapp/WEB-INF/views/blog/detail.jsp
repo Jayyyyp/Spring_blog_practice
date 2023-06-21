@@ -85,7 +85,7 @@
         </div> <!--.fourth-row-->
         <div class="row">
             <div id="replies">
-                
+
             </div>
         </div>
     </div> <!--container-->
@@ -94,12 +94,35 @@
         let blogId = "${blog.blogId}";
 
         // blogId를 받아 전체 데이터를 JS 내부로 가져오는 함수
-        function getAllReplies(blogId){
-            let url = `http://localhost:8080/reply/${blogId}/all`;
+        function getAllReplies(Id){
+            // <%--jsp와 js 모두 ${변수명} 문법을 공유하고, 이 중 .jsp파일에서는
+            // ${}의 해석을 jsp식으로 먼저 하기 때문에, 해당 ${}가 백틱 내부에서 쓰이는 경우,
+            // \${} 형식으로 \ 를 추가로 왼쪽에 붙여 jsp용으로 작성한것이 아님을 명시--%>
+            let url = `http://localhost:8080/reply/\${Id}/all`;
+            let str = ""; // 받아온 json을 표현할 html 코드를 저장할 문자열 str 선언
             fetch(url, {method:'get'}) // get방식으로 위 주소에 요청넣기
                 .then((res) => res.json()) // 응답받은 요소중 json만 뽑기
-                .then(data => { // 뽑아온 json으로 처리작업하기
-                    console.log(data);
+                .then(replies => { // 뽑아온 json으로 처리작업하기
+                    console.log(replies);
+                    // for(reply of replies){
+                    //     console.log(reply);
+                    //     console.log("=============");
+                    //     str += `<h3>글쓴이: \${reply.replyWriter}, 댓글내용: \${reply.replyContent}</h3>`;
+                    // }
+
+                    // .map()을 이용한 간결한 반복문 처리
+                    replies.map((reply, i) =>{
+                        // 첫 파라미터 : 반복 대상자료
+                        // 두 번째 파라미터 : 순번
+                        str += `<h3>\${i + 1}번째 댓글 || 글쓴이: \${reply.replyWriter},
+                                댓글내용: \${reply.replyContent}</h3>`;
+                    });
+
+                    console.log(str); // 저장된 태그 확인
+                    // #replies 요소를 변수에 저장하기
+                    const $replies = document.getElementById('replies');
+                    // 지정된 #replies의 innerHTML에 str을 대입하여 실제 화면에 출력되게하기
+                    $replies.innerHTML = str;
                 });
         }
         // 함수 호출

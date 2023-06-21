@@ -1,7 +1,6 @@
 package com.spring.blog.controller;
 
 import com.spring.blog.dto.reply.ReplyFindByIdDTO;
-import com.spring.blog.entity.Reply;
 import com.spring.blog.service.ReplyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

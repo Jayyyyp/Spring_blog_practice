@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -83,6 +84,29 @@ public class ReplyServiceTest {
         assertEquals(replyWriter, result.getReplyWriter());
         assertEquals(replyContent, result.getReplyContent());
     }
+
+//    @Test
+//    @Transactional
+//    @DisplayName("insertErrorCheckException")
+//    public void errorCheckTest(){
+//        assertThrows(DataIntegrityViolationException.class, () ->{
+//        long blogId = 3;
+//        String replyWriter = null;
+//        String replyContent = "git-flow하는법";
+//
+//        ReplyInsertDTO replyInsertDTO = ReplyInsertDTO.builder()
+//                .replyWriter(replyWriter)
+//                .replyContent(replyContent)
+//                .blogId(blogId)
+//                .build();
+//        replyService.save(replyInsertDTO);
+//
+//        List<ReplyFindByIdDTO> resultList = replyService.findAllByBlogId(blogId);
+//        ReplyFindByIdDTO result = resultList.get(resultList.size() - 1);
+//        assertEquals("git-flow 마스터", result.getReplyWriter());
+//        assertEquals(replyContent, result.getReplyContent());
+//        });
+//    }
 
     @Test
     @Transactional
