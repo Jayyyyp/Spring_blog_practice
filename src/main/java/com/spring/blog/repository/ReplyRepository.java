@@ -20,4 +20,7 @@ public interface ReplyRepository {
 
     void update(ReplyUpdateDTO replyUpdateDTO);
 
+    // blogId를 받아 특정 글의 연계된 댓글 전체를 삭제하는 메서드를 정의하기
+    void deleteByBlogId(long blogId);
+
 }

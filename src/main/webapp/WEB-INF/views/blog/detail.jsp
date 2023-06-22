@@ -127,8 +127,12 @@
                     replies.map((reply, i) =>{
                         // 첫 파라미터 : 반복 대상자료
                         // 두 번째 파라미터 : 순번
-                        str += `<h3>\${i + 1}번째 댓글 || 글쓴이: \${reply.replyWriter},
-                                댓글내용: \${reply.replyContent}</h3>`;
+                        str += `<h3>\${i+1}번째 댓글 || 글쓴이: \${reply.replyWriter},
+                                댓글내용: \${reply.replyContent}
+                                    <span class="deleteReplyBtn" data-replyId="\${reply.replyId}">
+                                        [삭제]
+                                    </span>
+                                </h3>`;
                     });
 
                     console.log(str); // 저장된 태그 확인
@@ -180,6 +184,37 @@
 
         // 버튼 클릭시, insertReply 내부 로직 실행
         $replySubmit.addEventListener("click", insertReply);
+
+        // 이벤트 객체를 활용해야 이벤트 위임을 구현하기 수월하므로 먼저 HTML 객체부터 가져온다.
+        // 모든 댓글을 포함하고 있으면서 가장 가까운 영역인 replies에 설정한다.
+        const $replies = document.querySelector("#replies");
+
+        $replies.onclick = (e) => {
+            // 클릭한 요소가 #replies의 자손 태그인 span .deleteReplyBtn인지 검사
+            // 이벤트객체.target.matches는 클릭한 요소가 어떤 태그인지 검사해준다.
+            if(!e.target.matches('#replies .deleteReplyBtn')){
+                return;
+            }
+            // 클릭 이벤트 객체 e의 target 속성의 dataset 속성 내부에 댓글번호가 있으므로 확인
+            console.log(e.target.dataset['replyid']);
+
+            const replyId = e.target.dataset['replyid'];
+            // const replyId = e.target.dataset.replyid; 와 동일
+
+            if(confirm("정말로 삭제하시겠어요?")){ // 예, 아니오로 답할 수 있는 경고창을 띄우기
+                // 예 = true, 아니오 = false
+                let url = `http://localhost:8080/reply/\${replyId}`;
+
+                fetch(url, {method : 'delete'})
+                    .then(() => {
+                        // 요청 넣은 후 실행할 코드를 여기에 적습니다.
+                        alert('해당 댓글을 삭제했습니다.');
+                        // 삭제되어 댓글 구성이 변경되었으므로 갱신
+                        getAllReplies(blogId);
+                    });
+            }
+        }
+
     </script>
 </body>
 </html>
