@@ -87,6 +87,19 @@
             <div id="replies">
 
             </div>
+            <div class="row">
+                <!--비동기 form의 경우 목적지로 이동하지 않고 페이지 내에서 처리가 되므로
+                    action을 가지지 않는다. 그리고 제출 버튼도 제출기능을 막고 fetch 요청만 넣는다.--->
+                    <div class="col-2">
+                        <input type="text" class="form-control" id="replyWriter" name="replyWriter">
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="form-control" id="replyContent" name="replyContent">
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-primary" id="replySubmit">댓글쓰기</button>
+                    </div>
+            </div>
         </div>
     </div> <!--container-->
     <script>
@@ -127,6 +140,46 @@
         }
         // 함수 호출
         getAllReplies(blogId);
+
+        // 해당함수 실행시 비동기 폼에 작성된 글쓴이, 내용으로 댓글 입력
+        function insertReply(){
+            let url = `http://localhost:8080/reply`;
+
+            // 요소가 다 채워졌는지 확인
+            if(document.getElementById("replyWriter").value.trim() === ""){
+                alert("글쓴이를 채워주셔야 합니다.");
+                return;
+            }
+            if(document.getElementById("replyContent").value.trim() === ""){
+                alert("본문을 채워주셔야 합니다.");
+                return;
+            }
+            fetch(url, {
+                method : 'post',
+                headers : { // 보내는 데이터의 자료형에 대해 기술
+                    // json 데이터를 요청과 함께 전달, @RequestBody를 입력받는 로직에 추가
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ // 여기에 실질적으로 요청과 보낼 json 정보를 기술함
+                    replyWriter: document.getElementById("replyWriter").value,
+                    replyContent: document.getElementById("replyContent").value,
+                    blogId: "${blog.blogId}"
+                }), // insert로직이기 때문에 response에 실제 화면에서 사용할 데이터 전송 X
+            }).then(()=>{
+                // 댓글 작성 후 폼에 작성되어있던 내용 소거
+                document.getElementById("replyWriter").value = "";
+                document.getElementById("replyContent").value = "";
+                alert("댓글 작성이 완료되었습니다!");
+                // 댓글 갱신 추가로 호출(비효율적)
+                getAllReplies(blogId);
+            });
+        }
+
+        // 제출 버튼에 이벤트 연결하기
+        $replySubmit = document.getElementById("replySubmit");
+
+        // 버튼 클릭시, insertReply 내부 로직 실행
+        $replySubmit.addEventListener("click", insertReply);
     </script>
 </body>
 </html>

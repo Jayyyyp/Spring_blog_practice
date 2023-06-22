@@ -6,7 +6,6 @@ import com.spring.blog.exception.NotFoundByReplyIdException;
 import com.spring.blog.service.ReplyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,5 +54,13 @@ public class ReplyController {
         replyService.save(replyInsertDTO);
 
         return ResponseEntity.ok("댓글 등록이 잘되었네요, 허허");
+    }
+
+    // delete 방식으로 /reply/{댓글번호} 주소로 요청이 들어왔을때 실행되는 메서드 작성
+    @DeleteMapping("/{replyId}")
+    public ResponseEntity<String> deleteReply(@PathVariable long replyId){
+        replyService.deleteByReplyId(replyId);
+
+        return ResponseEntity.ok("댓글이 잘 삭제되었습니다.");
     }
 }
