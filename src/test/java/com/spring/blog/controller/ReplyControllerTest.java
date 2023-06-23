@@ -1,8 +1,9 @@
 package com.spring.blog.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spring.blog.dto.reply.ReplyFindByIdDTO;
-import com.spring.blog.dto.reply.ReplyInsertDTO;
+import com.spring.blog.dto.reply.ReplyResponseDTO;
+import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
+import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 import com.spring.blog.repository.ReplyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -97,7 +98,7 @@ class ReplyControllerTest {
         String replyContent = "수정된본문";
         String url = "/reply";
         String url2 = "/reply/1/all";
-        ReplyInsertDTO replyInsertDTO = new ReplyInsertDTO(blogId, replyWriter, replyContent);
+        ReplyCreateResponseDTO replyInsertDTO = new ReplyCreateResponseDTO(blogId, replyWriter, replyContent);
 
         // 데이터 직렬화
         final String requestBody = objectMapper.writeValueAsString(replyInsertDTO);
@@ -132,10 +133,42 @@ class ReplyControllerTest {
         // .accept는 리턴 데이터가 있는 경우에 해당 데이터를 어떤 형식으로 받아올지 기술
 
         // then : repository를 이용해 전체 데이터를 가져온 후, 개수 비교 및 삭제한 3번댓글은 null이 리턴되는지 확인
-        List<ReplyFindByIdDTO> resultList = replyRepository.findAllByBlogId(blogId);
+        List<ReplyResponseDTO> resultList = replyRepository.findAllByBlogId(blogId);
         assertEquals(3, resultList.size());
-        ReplyFindByIdDTO result = replyRepository.findByReplyId(replyId);
+        ReplyResponseDTO result = replyRepository.findByReplyId(replyId);
         assertNull(result);
     }
+
+    @Test
+    @Transactional
+    @DisplayName("댓글번호 4번 replyWriter를 깃플로우로, replyContent를 깃깃으로 바꾼뒤 조회해보기")
+    public void updateReplyTest() throws Exception{
+        // given
+        long replyId = 4;
+        String replyWriter = "깃플로우";
+        String replyContent = "깃깃";
+        String url = "/reply/4"; // 4번댓글에 대한 수정요청 넣기
+        ReplyUpdateRequestDTO replyUpdateRequestDTO = ReplyUpdateRequestDTO.builder()
+                .replyWriter(replyWriter)
+                .replyContent(replyContent)
+                .build();
+
+        // 데이터 직렬화
+        final String requestBody = objectMapper.writeValueAsString(replyUpdateRequestDTO);
+
+        // when
+        mockMvc.perform(patch(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+
+        // then
+        final ResultActions result = mockMvc.perform(get(url)
+                .accept(MediaType.APPLICATION_JSON));
+        result
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("replyWriter").value(replyWriter))
+                .andExpect(jsonPath("replyContent").value(replyContent));
+    }
+
 
 }

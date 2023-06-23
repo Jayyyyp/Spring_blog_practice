@@ -5,7 +5,7 @@
 
 <mapper namespace="com.spring.blog.repository.ReplyRepository">
 
-    <select id="findAllByBlogId" resultType="com.spring.blog.dto.reply.ReplyFindByIdDTO" parameterType="long">
+    <select id="findAllByBlogId" resultType="com.spring.blog.dto.reply.ReplyResponseDTO" parameterType="long">
         SELECT
             reply_id as replyId,
             reply_writer as replyWriter,
@@ -18,7 +18,7 @@
             blog_id = #{blogId}
     </select>
 
-    <select id="findByReplyId" resultType="com.spring.blog.dto.reply.ReplyFindByIdDTO" parameterType="long">
+    <select id="findByReplyId" resultType="com.spring.blog.dto.reply.ReplyResponseDTO" parameterType="long">
         SELECT
             reply_id as replyId,
             reply_writer as replyWriter,
@@ -38,14 +38,14 @@
             reply_id = #{replyId}
     </delete>
 
-    <insert id="save" parameterType="com.spring.blog.dto.reply.ReplyInsertDTO">
+    <insert id="save" parameterType="com.spring.blog.dto.reply.ReplyCreateResponseDTO">
         INSERT INTO
              REPLY (blog_id, reply_writer, reply_content)
         VALUES
             (#{blogId}, #{replyWriter}, #{replyContent})
     </insert>
 
-    <update id="update" parameterType="com.spring.blog.dto.reply.ReplyUpdateDTO">
+    <update id="update" parameterType="com.spring.blog.dto.reply.ReplyUpdateRequestDTO">
         UPDATE REPLY
             SET reply_writer = #{replyWriter},
                 reply_content = #{replyContent},

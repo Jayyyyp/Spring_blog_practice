@@ -1,22 +1,22 @@
 package com.spring.blog.service;
 
 
-import com.spring.blog.dto.reply.ReplyFindByIdDTO;
-import com.spring.blog.dto.reply.ReplyInsertDTO;
-import com.spring.blog.dto.reply.ReplyUpdateDTO;
+import com.spring.blog.dto.reply.ReplyResponseDTO;
+import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
+import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 
 import java.util.List;
 
 public interface ReplyService {
     // 글번호 입력시 전체 조회해서 리턴해주는 findByBlogId() 메서드
-    List<ReplyFindByIdDTO> findAllByBlogId(long blogId);
+    List<ReplyResponseDTO> findAllByBlogId(long blogId);
 
-    ReplyFindByIdDTO findByReplyId(long replyId);
+    ReplyResponseDTO findByReplyId(long replyId);
 
     void deleteByReplyId(long replyId);
 
-    void save(ReplyInsertDTO replyInsertDTO);
+    void save(ReplyCreateResponseDTO replyInsertDTO);
 
-    void update(ReplyUpdateDTO replyUpdateDTO);
+    void update(ReplyUpdateRequestDTO replyUpdateRequestDTO);
 
 }

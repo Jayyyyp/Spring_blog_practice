@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Getter@Setter@ToString
 @NoArgsConstructor@AllArgsConstructor
 @Builder
-public class ReplyFindByIdDTO {
+public class ReplyResponseDTO {
 
     private long replyId;
     private String replyWriter;
@@ -16,7 +16,7 @@ public class ReplyFindByIdDTO {
     private LocalDateTime publishedAt;
     private LocalDateTime updatedAt;
 
-    public ReplyFindByIdDTO(Reply reply){
+    public ReplyResponseDTO(Reply reply){
         this.replyId = reply.getReplyId();
         this.replyWriter = reply.getReplyWriter();
         this.replyContent = reply.getReplyContent();

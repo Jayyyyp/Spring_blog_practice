@@ -1,8 +1,8 @@
 package com.spring.blog.repository;
 
-import com.spring.blog.dto.reply.ReplyFindByIdDTO;
-import com.spring.blog.dto.reply.ReplyInsertDTO;
-import com.spring.blog.dto.reply.ReplyUpdateDTO;
+import com.spring.blog.dto.reply.ReplyResponseDTO;
+import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
+import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class ReplyRepositoryTest {
     public void findAllByBlogIdTest(){
         long blogId = 2;
 
-        List<ReplyFindByIdDTO> result = replyRepository.findAllByBlogId(blogId);
+        List<ReplyResponseDTO> result = replyRepository.findAllByBlogId(blogId);
 
         assertEquals(4, result.size());
     }
@@ -38,10 +38,10 @@ public class ReplyRepositoryTest {
         String replyWriter = "에취";
         String replyContent = "에쵸!!";
 
-        ReplyFindByIdDTO replyFindByIdDTO = replyRepository.findByReplyId(replyId);
+        ReplyResponseDTO replyResponseDTO = replyRepository.findByReplyId(replyId);
 
-        assertEquals(replyWriter, replyFindByIdDTO.getReplyWriter());
-        assertEquals(replyContent, replyFindByIdDTO.getReplyContent());
+        assertEquals(replyWriter, replyResponseDTO.getReplyWriter());
+        assertEquals(replyContent, replyResponseDTO.getReplyContent());
 
     }
 
@@ -65,15 +65,15 @@ public class ReplyRepositoryTest {
         long blogId = 1;
         String replyWriter = "도비의스프링";
         String replyContent = "도비는자유입니다!!";
-        ReplyInsertDTO replyInsertDTO = ReplyInsertDTO.builder()
+        ReplyCreateResponseDTO replyInsertDTO = ReplyCreateResponseDTO.builder()
                 .blogId(blogId)
                 .replyWriter(replyWriter)
                 .replyContent(replyContent)
                 .build();
         replyRepository.save(replyInsertDTO);
 
-        List<ReplyFindByIdDTO> resultList = replyRepository.findAllByBlogId(blogId);
-        ReplyFindByIdDTO result = resultList.get(resultList.size()-1);
+        List<ReplyResponseDTO> resultList = replyRepository.findAllByBlogId(blogId);
+        ReplyResponseDTO result = resultList.get(resultList.size()-1);
 
         assertEquals(replyWriter, result.getReplyWriter());
         assertEquals(replyContent, result.getReplyContent());
@@ -86,15 +86,15 @@ public class ReplyRepositoryTest {
         long replyId = 3;
         String replyWriter = "수정된글쓴이";
         String replyContent = "수정한내용물이야";
-        ReplyUpdateDTO replyUpdateDTO = ReplyUpdateDTO.builder()
+        ReplyUpdateRequestDTO replyUpdateRequestDTO = ReplyUpdateRequestDTO.builder()
                 .replyId(replyId)
                 .replyWriter(replyWriter)
                 .replyContent(replyContent)
                 .build();
 
-        replyRepository.update(replyUpdateDTO);
+        replyRepository.update(replyUpdateRequestDTO);
 
-        ReplyFindByIdDTO result = replyRepository.findByReplyId(replyId);
+        ReplyResponseDTO result = replyRepository.findByReplyId(replyId);
         assertEquals(replyWriter, result.getReplyWriter());
         assertEquals(replyContent, result.getReplyContent());
         // System.out.println(result); // 눈으로 확인
@@ -109,7 +109,7 @@ public class ReplyRepositoryTest {
 
         replyRepository.deleteByBlogId(blogId);
 
-        List<ReplyFindByIdDTO> resultList = replyRepository.findAllByBlogId(blogId);
+        List<ReplyResponseDTO> resultList = replyRepository.findAllByBlogId(blogId);
         assertEquals(0, resultList.size());
     }
 }

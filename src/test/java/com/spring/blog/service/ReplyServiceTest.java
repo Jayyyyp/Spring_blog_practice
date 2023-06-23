@@ -1,14 +1,12 @@
-package com.spring.blog.repository;
+package com.spring.blog.service;
 
-import com.spring.blog.dto.reply.ReplyFindByIdDTO;
-import com.spring.blog.dto.reply.ReplyInsertDTO;
-import com.spring.blog.dto.reply.ReplyUpdateDTO;
-import com.spring.blog.service.ReplyService;
+import com.spring.blog.dto.reply.ReplyResponseDTO;
+import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
+import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public class ReplyServiceTest {
     public void findByBlogIdTest(){
         long blogId = 2;
 
-        List<ReplyFindByIdDTO> result = replyService.findAllByBlogId(blogId);
+        List<ReplyResponseDTO> result = replyService.findAllByBlogId(blogId);
 
         assertEquals(4, result.size());
     }
@@ -40,7 +38,7 @@ public class ReplyServiceTest {
         String replyWriter = "우르르";
         String replyContent = "용병단";
 
-        ReplyFindByIdDTO result = replyService.findByReplyId(replyId);
+        ReplyResponseDTO result = replyService.findByReplyId(replyId);
 
         assertEquals(replyId, result.getReplyId());
         assertEquals(replyWriter, result.getReplyWriter());
@@ -68,7 +66,7 @@ public class ReplyServiceTest {
         String replyWriter = "git-flow마스터";
         String replyContent = "git-flow하는법";
 
-        ReplyInsertDTO replyInsertDTO = ReplyInsertDTO.builder()
+        ReplyCreateResponseDTO replyInsertDTO = ReplyCreateResponseDTO.builder()
                 .blogId(blogId)
                 .replyWriter(replyWriter)
                 .replyContent(replyContent)
@@ -77,8 +75,8 @@ public class ReplyServiceTest {
         replyService.save(replyInsertDTO);
 
 
-        List<ReplyFindByIdDTO> resultList = replyService.findAllByBlogId(blogId);
-        ReplyFindByIdDTO result = resultList.get(resultList.size() - 1);
+        List<ReplyResponseDTO> resultList = replyService.findAllByBlogId(blogId);
+        ReplyResponseDTO result = resultList.get(resultList.size() - 1);
         // 마지막 인덱스에 추가되었을 것이라 resultList.size()에 -1을 함
 
         assertEquals(replyWriter, result.getReplyWriter());
@@ -116,18 +114,20 @@ public class ReplyServiceTest {
         String replyWriter = "너굴맨";
         String replyContent = "너굴너굴";
 
-        ReplyUpdateDTO replyUpdateDTO = ReplyUpdateDTO.builder()
+        ReplyUpdateRequestDTO replyUpdateRequestDTO = ReplyUpdateRequestDTO.builder()
                 .replyId(replyId)
                 .replyWriter(replyWriter)
                 .replyContent(replyContent)
                 .build();
 
-        replyService.update(replyUpdateDTO);
+        replyService.update(replyUpdateRequestDTO);
 
-        ReplyFindByIdDTO result = replyService.findByReplyId(replyId);
+        ReplyResponseDTO result = replyService.findByReplyId(replyId);
         assertEquals(replyWriter, result.getReplyWriter());
         assertEquals(replyContent, result.getReplyContent());
         assertTrue(result.getUpdatedAt().isAfter(result.getPublishedAt()));
         // 업데이트한 시간이 출판한 시간보다 이후일 것이다.
     }
+
+    // blog와 함께 reply가 삭제되는 케이스는 따로 다시 테스트코드를 하나 더 작성하는 것이 좋다.
 }

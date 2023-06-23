@@ -1,7 +1,8 @@
 package com.spring.blog.controller;
 
-import com.spring.blog.dto.reply.ReplyFindByIdDTO;
-import com.spring.blog.dto.reply.ReplyInsertDTO;
+import com.spring.blog.dto.reply.ReplyResponseDTO;
+import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
+import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 import com.spring.blog.exception.NotFoundByReplyIdException;
 import com.spring.blog.service.ReplyService;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,9 @@ public class ReplyController {
 
     // 글 번호에 맞는 전체 댓글을 가져오는 메서드
     @GetMapping("/{blogId}/all")
-    public ResponseEntity<List<ReplyFindByIdDTO>> findAllReplies(@PathVariable long blogId){
+    public ResponseEntity<List<ReplyResponseDTO>> findAllReplies(@PathVariable long blogId){
 
-        List<ReplyFindByIdDTO> replies = replyService.findAllByBlogId(blogId);
+        List<ReplyResponseDTO> replies = replyService.findAllByBlogId(blogId);
         return ResponseEntity.ok().body(replies);
     }
 
@@ -34,24 +35,24 @@ public class ReplyController {
 
     @GetMapping("/{replyId}")
     public ResponseEntity<?> findByReplyId(@PathVariable long replyId){
-        ReplyFindByIdDTO replyFindByIdDTO = replyService.findByReplyId(replyId);
+        ReplyResponseDTO replyResponseDTO = replyService.findByReplyId(replyId);
 
-        if (replyFindByIdDTO == null) {
+        if (replyResponseDTO == null) {
             try {
                 throw new NotFoundByReplyIdException("없는 리플 번호를 조회했습니다.");
             } catch (NotFoundByReplyIdException e) {
                 e.printStackTrace();
                 return new ResponseEntity<>("찾는 댓글 번호가 없습니다.", HttpStatus.NOT_FOUND);
             }
-        } return ResponseEntity.ok(replyFindByIdDTO);
+        } return ResponseEntity.ok(replyResponseDTO);
         // return new ResponseEntity<ReplyFindByIdDTO>(replyFindByIdDTO, HttpStatus.OK);
     }
 
     @PostMapping("")
         // REST 컨트롤러는 데이터를 json으로 주고받기 때문에 @RequestBody를 이용해
         // json으로 들어온 데이터를 역직렬화 하도록 설정
-    public ResponseEntity<String> insertReply(@RequestBody ReplyInsertDTO replyInsertDTO){
-        replyService.save(replyInsertDTO);
+    public ResponseEntity<String> insertReply(@RequestBody ReplyCreateResponseDTO replyCreateResponseDTO){
+        replyService.save(replyCreateResponseDTO);
 
         return ResponseEntity.ok("댓글 등록이 잘되었네요, 허허");
     }
@@ -62,5 +63,17 @@ public class ReplyController {
         replyService.deleteByReplyId(replyId);
 
         return ResponseEntity.ok("댓글이 잘 삭제되었습니다.");
+    }
+
+    // 수정로직은 put, patch 메서드로 "/reply/댓글번호" 주소로
+    // ReplyUpdateRequestDTO를 requestBody로 받아 요청처리를 하게 만들기
+    @RequestMapping(value = "/{replyId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public ResponseEntity<String> updateReply(@PathVariable long replyId,
+                                              @RequestBody ReplyUpdateRequestDTO replyUpdateRequestDTO){
+        // json데이터에 replyId를 포함하는 대신 url에 포함시켰으므로, requestBody에 추가시켜줘야 함
+        replyUpdateRequestDTO.setReplyId(replyId);
+        replyService.update(replyUpdateRequestDTO);
+        
+        return ResponseEntity.ok("댓글 수정 완료되었습니다.");
     }
 }
