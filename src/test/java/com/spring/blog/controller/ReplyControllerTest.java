@@ -1,9 +1,6 @@
 package com.spring.blog.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spring.blog.dto.reply.ReplyResponseDTO;
-import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
-import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 import com.spring.blog.repository.ReplyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

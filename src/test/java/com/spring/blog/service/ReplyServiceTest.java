@@ -1,8 +1,5 @@
 package com.spring.blog.service;
 
-import com.spring.blog.dto.reply.ReplyResponseDTO;
-import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
-import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

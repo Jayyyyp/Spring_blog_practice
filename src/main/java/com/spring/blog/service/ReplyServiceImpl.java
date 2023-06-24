@@ -1,8 +1,5 @@
 package com.spring.blog.service;
 
-import com.spring.blog.dto.reply.ReplyResponseDTO;
-import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
-import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 import com.spring.blog.repository.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

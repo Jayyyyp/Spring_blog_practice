@@ -1,8 +1,5 @@
 package com.spring.blog.controller;
 
-import com.spring.blog.dto.reply.ReplyResponseDTO;
-import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
-import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 import com.spring.blog.exception.NotFoundByReplyIdException;
 import com.spring.blog.service.ReplyService;
 import org.springframework.http.HttpStatus;

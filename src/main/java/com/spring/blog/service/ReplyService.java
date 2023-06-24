@@ -1,10 +1,6 @@
 package com.spring.blog.service;
 
 
-import com.spring.blog.dto.reply.ReplyResponseDTO;
-import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
-import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
-
 import java.util.List;
 
 public interface ReplyService {

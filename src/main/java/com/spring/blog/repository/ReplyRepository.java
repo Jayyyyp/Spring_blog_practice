@@ -1,9 +1,6 @@
 package com.spring.blog.repository;
 
 
-import com.spring.blog.dto.reply.ReplyResponseDTO;
-import com.spring.blog.dto.reply.ReplyCreateResponseDTO;
-import com.spring.blog.dto.reply.ReplyUpdateRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
