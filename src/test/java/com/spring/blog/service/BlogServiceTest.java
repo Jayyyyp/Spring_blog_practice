@@ -49,10 +49,10 @@ public class BlogServiceTest {
                 .writer(writer)
                 .blogContent(blogContent)
                 .build();
-        int blogId = 3;
+        int blogId = 0;
 
         blogService.save(blog);
-
+        System.out.println(blogService.findAll().get(blogId).getWriter());
         assertEquals(writer, blogService.findAll().get(blogId).getWriter());
         assertEquals(blogContent, blogService.findAll().get(blogId).getBlogContent());
         assertEquals(blogTitle, blogService.findAll().get(blogId).getBlogTitle());
