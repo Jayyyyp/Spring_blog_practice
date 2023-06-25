@@ -11,7 +11,7 @@
           crossorigin="anonymous">
     <style>
         div{
-            border: 1px solid black;
+            border: 1px solid blue;
         }
     </style>
 </head>
