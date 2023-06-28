@@ -16,7 +16,6 @@ public class BlogServiceTest {
 
     @Autowired
     BlogService blogService;
-
     @Test
     @Transactional // 테스트 결과가 커밋하지않음
     public void findAllTest(){
@@ -25,7 +24,6 @@ public class BlogServiceTest {
 
         assertEquals(3, blogList.size());
     }
-
     @Test
     @Transactional
     public void findByIdTest(){
@@ -69,7 +67,6 @@ public class BlogServiceTest {
         assertEquals(2, blogService.findAll().size());
         assertNull(blogService.findById(blogId));
     }
-
     @Test
     @Transactional
     public void updateTest(){
