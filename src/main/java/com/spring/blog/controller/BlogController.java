@@ -22,7 +22,7 @@ import java.util.List;
 @Log4j2
 public class BlogController {
 
-    // 컨트롤러 레이어는 서비스 레이어 직접 호출
+    // 컨트롤러 레이어는 서비스 레이어 직접 호출한다.
    @Autowired
     BlogService blogService;
    @Autowired
@@ -30,7 +30,7 @@ public class BlogController {
        this.blogService = blogService;
    }
 
-   // /blog/list 주소를 get방식으로 접속했을때
+   // /blog/list 주소를 get방식으로 접속했을때의 경우
     @GetMapping("/list")
     public String list(Model model){
         List<Blog> blogList = blogService.findAll();
