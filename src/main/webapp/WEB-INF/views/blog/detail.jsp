@@ -108,20 +108,45 @@
             <div id="replies">
 
             </div>
-            <div class="row">
-                <!--비동기 form의 경우 목적지로 이동하지 않고 페이지 내에서 처리가 되므로
-                    action을 가지지 않는다. 그리고 제출 버튼도 제출기능을 막고 fetch 요청만 넣는다.--->
-                    <div class="col-2">
-                        <input type="text" class="form-control" id="replyWriter" name="replyWriter">
-                    </div>
-                    <div class="col-6">
-                        <input type="text" class="form-control" id="replyContent" name="replyContent">
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-primary" id="replySubmit">댓글쓰기</button>
-                    </div>
-            </div>
         </div>
     </div> <!--container-->
+    <script>
+        // 글 구성에 필요한 글번호를 자바스크립트 변수에 저장
+        let blogId = "${blog.blogId}";
+
+        // blogId를 받아 전체 데이터를 JS 내부로 가져오는 함수
+        function getAllReplies(id){
+            <%-- .jsp와 js 모두 ${변수명} 문법을 공유하고, 이 중 .jsp 파일에서는
+                ${}의 해석을 jsp식으로 먼저 하기 때문에, 해당 ${} 가 백틱 내부에서 쓰이는 경우,
+                \${} 형식으로 \를 추가로 왼쪽에 붙여 jsp용으로 작성한 것이 아님을 명시해야 함
+            --%>
+            let url = `http://localhost:8080/reply/\${id}/all`;
+
+            let str = ""; // 받아온 json을 표현할 html 코드를 저장할 문자열 str 선언
+
+            fetch(url, {method:'get'})      // get 방식으로 위 주소에 요청을 넣기
+                .then((res) => res.json())  // 응답받은 요소 중 json만 뽑기
+                .then(replies => {             // 뽑아온 json으로 처리작업하기
+                    console.log(replies);
+                    // for(reply of replies){
+                    //     console.log("-----------------");
+                    //     str += `<h3>글쓴이 : \${reply.replyWriter}, 댓글내용 : \${reply.replyContent}</h3>`;
+                    // }
+
+                    // .map()을 이용한 간결한 반복문 처리
+                    replies.map((reply, i) =>{ // 첫 파라미터 : 반복대상자료, 두번째 파라미터 : 순번
+                        str += `<h3>\${i}번째 댓글 || 글쓴이: \${reply.replyWriter},
+                                댓글내용: \${reply.replyContent}</h3>`;
+                        });
+                     console.log(str); // 저장된 태그 확인
+                    // #replies 요소를 변수에 저장하기
+                    const $replies = document.getElementById('replies');
+                    // 저장된 #replies의 innerHTML에 str을 대입하기
+                    $replies.innerHTML = str;
+                });
+        }
+        // 함수 호출
+        getAllReplies(blogId);
+    </script>
 </body>
 </html>
