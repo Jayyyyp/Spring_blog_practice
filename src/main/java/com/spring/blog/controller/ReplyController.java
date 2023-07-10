@@ -3,6 +3,7 @@ package com.spring.blog.controller;
 import com.spring.blog.dto.reply.ReplyFindByIdDTO;
 import com.spring.blog.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +34,19 @@ public class ReplyController {
 
         return ResponseEntity
                 .ok()                // 200 코드, 상태 코드와 body에 전송할 데이터를 같이 작성할 수도 있음
-                 .body(replies);     // 리플 목록
+                .body(replies);     // 리플 목록
         // detail : line 114
+    }
+
+    // replyId를 주소에 포함시켜서 요청하면 해당 번호 댓글 정보를 json으로 리턴하는 메서드
+    @GetMapping("/{replyId}")
+    public ResponseEntity<ReplyFindByIdDTO> findByReplyId(@PathVariable long replyId){
+
+        // 서비스에서 특정 번호 리을 가져온다
+        ReplyFindByIdDTO replyFindByIdDTO = replyService.findByReplyId(replyId);
+
+//        return new ResponseEntity<ReplyFindByIdDTO>(replyFindByIdDTO, HttpStatus.OK);
+        return ResponseEntity
+                .ok(replyFindByIdDTO);
     }
 }
