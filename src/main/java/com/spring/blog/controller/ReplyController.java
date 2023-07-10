@@ -1,6 +1,7 @@
 package com.spring.blog.controller;
 
 import com.spring.blog.dto.reply.ReplyFindByIdDTO;
+import com.spring.blog.exception.NotFoundByReplyIdException;
 import com.spring.blog.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,13 +41,22 @@ public class ReplyController {
 
     // replyId를 주소에 포함시켜서 요청하면 해당 번호 댓글 정보를 json으로 리턴하는 메서드
     @GetMapping("/{replyId}")
-    public ResponseEntity<ReplyFindByIdDTO> findByReplyId(@PathVariable long replyId){
+    public ResponseEntity<?> findByReplyId(@PathVariable long replyId) {
 
-        // 서비스에서 특정 번호 리을 가져온다
+        // 서비스에서 특정 번호 리플을 가져온다
         ReplyFindByIdDTO replyFindByIdDTO = replyService.findByReplyId(replyId);
 
+        try {
+            if(replyFindByIdDTO == null) {
+                throw new NotFoundByReplyIdException("없는 리플 번호를 조회했습니다.");
+            }
+
 //        return new ResponseEntity<ReplyFindByIdDTO>(replyFindByIdDTO, HttpStatus.OK);
-        return ResponseEntity
-                .ok(replyFindByIdDTO);
+            return ResponseEntity
+                    .ok(replyFindByIdDTO);
+        } catch (NotFoundByReplyIdException e){
+            e.printStackTrace();
+            return new ResponseEntity<>("찾는 댓글 번호가 없습니다", HttpStatus.NOT_FOUND);
+        }
     }
 }

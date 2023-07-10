@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -53,5 +55,25 @@ class ReplyControllerTest {
                 .andExpect(status().isOk()) // 200 코드가 출력되는지 확인
                 .andExpect(jsonPath("$[0].replyWriter").value(replyWriter)) // 첫 json의 replyWriter
                 .andExpect(jsonPath("$[0].replyId").value(replyId)); // 첫 json의 replyId 검사
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("replyId 2번 조회시 얻어진 json 객체의 replyWriter는 짹짹이, blogId는 2번")
+    public void findByReplyIdTest() throws Exception {
+        // given
+        long replyId = 2;
+        String replyWriter = "짹짹이";
+        String url = "/reply/2";
+
+        // when : 위에 설정한 url로 접속 후 json 데이터 리턴받아 저장하기
+        final ResultActions result = mockMvc.perform(get(url)
+                                            .accept(MediaType.APPLICATION_JSON));
+
+        // then :
+        result
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.replyWriter").value(replyWriter))
+                .andExpect(jsonPath("$.replyId").value(replyId));
     }
 }
