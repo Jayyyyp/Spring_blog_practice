@@ -14,7 +14,7 @@ public class BlogServiceImpl implements BlogService{
     BlogRepository blogRepository;
 
 
-    @Autowired  // 생성자 주입이 속도가 빠름
+    @Autowired  // 생성자 주입이 속도가 빠르다.
     public BlogServiceImpl(BlogRepository blogRepository){
         this.blogRepository = blogRepository;
     }

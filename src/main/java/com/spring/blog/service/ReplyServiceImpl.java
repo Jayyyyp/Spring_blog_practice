@@ -15,7 +15,7 @@ public class ReplyServiceImpl implements ReplyService{
 
     ReplyRepository replyRepository;
 
-    @Autowired // 생성자 주입 권장 !!!!
+    @Autowired // 생성자 주입 권장 !
     public ReplyServiceImpl(ReplyRepository replyRepository){
         this.replyRepository = replyRepository;
     }
